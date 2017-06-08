@@ -41,6 +41,10 @@ module.exports = class BackgroundAddCommand extends Command {
 		});
 	}
 
+	hasPermission(msg) {
+		return this.client.isOwner(msg.author);
+	}
+
 	async run(msg, { name, price, description }) {
 		const image = msg.attachments.first();
 		if (!image) return msg.reply('please attach an image to use for the background.');

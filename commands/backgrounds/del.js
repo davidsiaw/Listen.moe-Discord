@@ -32,6 +32,10 @@ module.exports = class BackgroundDeleteCommand extends Command {
 		});
 	}
 
+	hasPermission(msg) {
+		return this.client.isOwner(msg.author);
+	}
+
 	async run(msg, { name }) {
 		const background = await Background.findByPrimary(name);
 		if (!background) return msg.reply('no such background exists.');
