@@ -29,8 +29,4 @@ Background.findAll().then(items => {
 	}
 });
 
-BackgroundStore.registerItem(new BackgroundItem('#1', 'The first one', 5000, '123'));
-BackgroundStore.registerItem(new BackgroundItem('#2', 'The second one', 5000, '234'));
-BackgroundStore.registerItem(new BackgroundItem('#3', 'The third one', 5000, '345'));
-
 module.exports = BackgroundStore;
