@@ -25,7 +25,7 @@ class BackgroundStore {
 
 Background.findAll().then(items => {
 	for (const item of items) {
-		BackgroundStore.registerItem(new BackgroundItem(item.name, item.desc, item.price, item.image));
+		BackgroundStore.registerItem(new BackgroundItem(item.name, item.description, item.price, item.image));
 	}
 });
 
