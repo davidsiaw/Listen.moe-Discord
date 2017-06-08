@@ -1,7 +1,7 @@
 const { Collection } = require('discord.js');
 
-const Item = require('../../models/Item');
-const StoreItem = require('./BackgroundItem');
+const Background = require('../../models/Background');
+const BackgroundItem = require('./BackgroundItem');
 
 const backgroundStoreItems = new Collection();
 
@@ -17,10 +17,20 @@ class BackgroundStore {
 	static getItems() {
 		return backgroundStoreItems;
 	}
+
+	static removeItem(itemName) {
+		BackgroundStore.delete(itemName);
+	}
 }
 
-Item.findAll().then(items => {
-	for (const item of items) BackgroundStore.registerItem(new StoreItem(item.name, item.desc, item.price, item.image));
+Background.findAll().then(items => {
+	for (const item of items) {
+		BackgroundStore.registerItem(new BackgroundItem(item.name, item.desc, item.price, item.image));
+	}
 });
+
+BackgroundStore.registerItem(new BackgroundItem('#1', 'The first one', 5000, '123'));
+BackgroundStore.registerItem(new BackgroundItem('#2', 'The second one', 5000, '234'));
+BackgroundStore.registerItem(new BackgroundItem('#3', 'The third one', 5000, '345'));
 
 module.exports = BackgroundStore;

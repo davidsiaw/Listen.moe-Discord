@@ -7,6 +7,7 @@ module.exports = class StoreInfoCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'background-store',
+			aliases: ['bg-store'],
 			group: 'item',
 			memberName: 'backgroundstore',
 			description: 'Displays price of all items.',
@@ -33,7 +34,7 @@ module.exports = class StoreInfoCommand extends Command {
 		if (storeItems.length === 0) return msg.reply('can\'t show what we don\'t have, man.');
 
 		return msg.embed({
-			description: `__**Items:**__`,
+			title: 'Backgrounds',
 			fields: [
 				{
 					name: 'Item',
