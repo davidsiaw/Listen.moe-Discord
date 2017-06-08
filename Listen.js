@@ -36,7 +36,7 @@ client.dispatcher.addInhibitor(msg => {
 
 client.dispatcher.addInhibitor(msg => {
 	if (!msg.command) return false;
-	const isRestrictedCommand = ['social', 'economy', 'games'].includes(msg.command.group.id);
+	const isRestrictedCommand = ['social', 'economy', 'games', 'backgrounds'].includes(msg.command.group.id);
 	if ((msg.channel.type === 'dm' || msg.guild.id !== '216372140046286849') && isRestrictedCommand) {
 		return [
 			`[DISCORD][SHARD: ${client.shard.id}]: ${msg.author.tag} tried to use command from group ${msg.command.group.name}`, // eslint-disable-line max-len
@@ -180,7 +180,8 @@ client.registry
 		['games', 'Games'],
 		['item', 'Items'],
 		['social', 'Social'],
-		['util', 'Utility']
+		['util', 'Utility'],
+		['backgrounds', 'Backgrounds']
 	])
 	.registerDefaults()
 	.registerCommandsIn(path.join(__dirname, 'commands'));

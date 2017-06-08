@@ -38,6 +38,19 @@ class Inventory {
 		this.content[itemGroup.item.name] = itemGroup;
 	}
 
+	hasItem(item) {
+		const itemGroup = new ItemGroup(item, 1);
+		return this.hasItems(itemGroup);
+	}
+
+	hasItems(itemGroup) {
+		return !!this.content[itemGroup.item.name];
+	}
+
+	getItems() {
+		return Object.keys(this.content);
+	}
+
 	removeItem(item) {
 		const itemGroup = new ItemGroup(item, 1);
 		this.removeItems(itemGroup);
