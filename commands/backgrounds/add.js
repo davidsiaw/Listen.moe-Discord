@@ -57,7 +57,7 @@ module.exports = class BackgroundAddCommand extends Command {
 
 		if (!created) return msg.reply('that name is already in use. Please use a different one.');
 
-		BackgroundStore.registerItem(new BackgroundItem(name, price, description, name));
+		BackgroundStore.registerItem(new BackgroundItem(name, description, price, name));
 
 		const filepath = path.join(__dirname, '..', '..', 'assets', 'profile', 'backgrounds', `${name}.png`);
 		request.get(image.url).pipe(fs.createWriteStream(filepath));
