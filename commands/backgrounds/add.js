@@ -55,15 +55,15 @@ module.exports = class BackgroundAddCommand extends Command {
 				name,
 				price,
 				description,
-				image: name
+				image: name.toLowerCase()
 			}
 		});
 
 		if (!created) return msg.reply('that name is already in use. Please use a different one.');
 
-		BackgroundStore.registerItem(new BackgroundItem(name, description, price, name));
+		BackgroundStore.registerItem(new BackgroundItem(name, description, price));
 
-		const filepath = path.join(__dirname, '..', '..', 'assets', 'profile', 'backgrounds', `${name}.png`);
+		const filepath = path.join(__dirname, '..', '..', 'assets', 'profile', 'backgrounds', `${name.toLowerCase()}.png`);
 		request.get(image.url).pipe(fs.createWriteStream(filepath));
 
 		return msg.reply('successfully added the background');

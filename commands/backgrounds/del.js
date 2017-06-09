@@ -43,9 +43,9 @@ module.exports = class BackgroundDeleteCommand extends Command {
 		background.destroy();
 		BackgroundStore.removeItem(name);
 
-		UserProfile.update({ background: 'default' }, { where: { background: name } });
+		UserProfile.update({ background: 'default' }, { where: { background: name.toLowerCase() } });
 
-		const filepath = path.join(__dirname, '..', '..', 'assets', 'profile', 'backgrounds', `${name}.png`);
+		const filepath = path.join(__dirname, '..', '..', 'assets', 'profile', 'backgrounds', `${name.toLowerCase()}.png`);
 		fs.unlink(filepath);
 
 		return msg.reply(`successfully deleted the background ${name}`);

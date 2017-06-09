@@ -1,9 +1,12 @@
 class BackgroundStoreItem {
-	constructor(name, description, price, image) {
+	constructor(name, description, price) {
 		this.name = name;
 		this.description = description;
 		this.price = price;
-		this.image = image;
+	}
+
+	get image() {
+		return this.name.toLowerCase();
 	}
 }
 
