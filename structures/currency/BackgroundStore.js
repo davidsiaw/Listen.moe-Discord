@@ -19,7 +19,7 @@ class BackgroundStore {
 	}
 
 	static removeItem(itemName) {
-		BackgroundStore.delete(itemName);
+		backgroundStoreItems.delete(itemName);
 	}
 }
 
