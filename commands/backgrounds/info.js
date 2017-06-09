@@ -41,6 +41,6 @@ module.exports = class BackgroundInfoCommand extends Command {
 					name: background.image
 				}
 			]
-		})
+		});
 	}
 };
