@@ -4,6 +4,7 @@ const path = require('path');
 
 const Background = require('../../models/Background');
 const BackgroundStore = require('../../structures/currency/BackgroundStore');
+const UserProfile = require('../../models/UserProfile');
 
 module.exports = class BackgroundDeleteCommand extends Command {
 	constructor(client) {
@@ -41,6 +42,8 @@ module.exports = class BackgroundDeleteCommand extends Command {
 		if (!background) return msg.reply('no such background exists.');
 		background.destroy();
 		BackgroundStore.removeItem(name);
+
+		UserProfile.update({ background: 'default' }, { where: { background: name } });
 
 		const filepath = path.join(__dirname, '..', '..', 'assets', 'profile', 'backgrounds', `${name}.png`);
 		fs.unlink(filepath);
