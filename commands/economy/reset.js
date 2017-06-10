@@ -36,6 +36,7 @@ module.exports = class MoneyResetCommand extends Command {
 	async run(msg) {
 		const profiles = await UserProfile.findAll();
 		for (const profile of profiles) profile.update({ money: 0, balance: 0, networth: 0, experience: 0 });
+		await this.client.redis.del('money');
 		await this.client.redis.delAsync('moneyleaderboard');
 		return msg.reply(`successfully reset currency.`);
 	}
