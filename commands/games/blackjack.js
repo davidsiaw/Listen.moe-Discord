@@ -33,9 +33,9 @@ module.exports = class BlackjackCommand extends Command {
 								Please specify a valid amount of ${Currency.textPlural}.
 							`;
 						}
-						if (![100, 200, 300, 400, 500, 1000].includes(bet)) {
+						if (![10, 20, 30, 40, 50, 100].includes(bet)) {
 							return `
-								please choose \`100, 200, 300, 400, 500, 1000\` for your bet.
+								please choose \`10, 20, 30, 40, 50, 100\` for your bet.
 							`;
 						}
 						return true;
