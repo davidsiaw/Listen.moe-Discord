@@ -49,7 +49,7 @@ module.exports = class ProfileCommand extends Command {
 		const totalExp = await Experience.getTotalExperience(user.id);
 		const fillValue = Math.min(Math.max(currentExp / (levelBounds.upperBound - levelBounds.lowerBound), 0), 1);
 
-		Canvas.registerFont(path.join(__dirname, '..', '..', 'assets', 'profile', 'fonts', 'NotoSans-Regular.ttf'), { family: 'NotoSans' }); // eslint-disable-line max-len
+		Canvas.registerFont(path.join(__dirname, '..', '..', 'assets', 'profile', 'fonts', 'NotoSansCJK-Regular.ttc'), { family: 'NotoSans' }); // eslint-disable-line max-len
 		Canvas.registerFont(path.join(__dirname, '..', '..', 'assets', 'profile', 'fonts', 'NotoEmoji-Regular.ttf'), { family: 'NotoSans' }); // eslint-disable-line max-len
 
 		const canvas = new Canvas(300, 300);
