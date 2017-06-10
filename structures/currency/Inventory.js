@@ -43,15 +43,15 @@ module.exports = class Inventory {
 		}
 	}
 
-	removeItem(item) {
+	removeItem(item, deleteAll) {
 		const itemGroup = new ItemGroup(item, 1);
-		this.removeItems(itemGroup);
+		this.removeItems(itemGroup, deleteAll);
 	}
 
-	removeItems(itemGroup) {
+	removeItems(itemGroup, deleteAll) {
 		const { amount: oldAmount } = this._content.get(itemGroup.item.name);
 
-		if (oldAmount === itemGroup.amount) {
+		if (oldAmount === itemGroup.amount || deleteAll) {
 			this._content.delete(itemGroup.item.name);
 		} else {
 			this._content.set(itemGroup.item.name, oldAmount - itemGroup.amount);

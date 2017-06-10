@@ -2,6 +2,7 @@ const { Command } = require('discord.js-commando');
 const fs = require('fs');
 const path = require('path');
 
+const Inventory = require('../../structures/currency/Inventory');
 const Store = require('../../structures/currency/Store');
 const UserProfile = require('../../models/UserProfile');
 
@@ -40,7 +41,17 @@ module.exports = class BackgroundDeleteCommand extends Command {
 		const background = await Store.getItem(name, 'background');
 		if (!background) return msg.reply('no such background exists.');
 		await Store.removeItem(name);
+		const users = UserProfile.findAll({ where: { background: background.image } });
 		UserProfile.update({ background: 'default' }, { where: { background: background.image } });
+
+		/* eslint-disable no-await-in-loop */
+		for (const user of users) {
+			const inventory = await Inventory.fetchInventory(user.userID);
+			inventory.removeItem(background, true);
+			await inventory.save();
+			user.increment('money', { by: background.price });
+		}
+		/* eslint-enable no-await-in-loop */
 
 		const filepath = path.join(__dirname, '..', '..', 'assets', 'profile', 'backgrounds', `${background.image}.png`);
 		fs.unlink(filepath);
