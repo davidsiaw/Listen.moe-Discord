@@ -92,7 +92,7 @@ module.exports = class ProfileCommand extends Command {
 			ctx.textAlign = 'left';
 			ctx.fillStyle = '#E5E5E5';
 			ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
-			ctx.fillText('LVL.', 12, 235);
+			ctx.fillText('LVL.', 10, 235);
 
 			// LVL Number
 			ctx.font = '30px NotoSans';
