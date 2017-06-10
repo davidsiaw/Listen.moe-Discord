@@ -49,8 +49,8 @@ module.exports = class ProfileCommand extends Command {
 		const totalExp = await Experience.getTotalExperience(user.id);
 		const fillValue = Math.min(Math.max(currentExp / (levelBounds.upperBound - levelBounds.lowerBound), 0), 1);
 
-		Canvas.registerFont(path.join(__dirname, '..', '..', 'assets', 'profile', 'fonts', 'Roboto.ttf'), { family: 'Roboto' }); // eslint-disable-line max-len
-		Canvas.registerFont(path.join(__dirname, '..', '..', 'assets', 'profile', 'fonts', 'NotoEmoji-Regular.ttf'), { family: 'Roboto' }); // eslint-disable-line max-len
+		Canvas.registerFont(path.join(__dirname, '..', '..', 'assets', 'profile', 'fonts', 'NotoSans-Regular.ttf'), { family: 'NotoSans' }); // eslint-disable-line max-len
+		Canvas.registerFont(path.join(__dirname, '..', '..', 'assets', 'profile', 'fonts', 'NotoEmoji-Regular.ttf'), { family: 'NotoSans' }); // eslint-disable-line max-len
 
 		const canvas = new Canvas(300, 300);
 		const ctx = canvas.getContext('2d');
@@ -69,75 +69,75 @@ module.exports = class ProfileCommand extends Command {
 			ctx.shadowBlur = 2;
 
 			// Username
-			ctx.font = '20px Roboto';
+			ctx.font = '20px NotoSans';
 			ctx.fillStyle = '#FFFFFF';
 			ctx.fillText(user.displayName, 50, 173);
 
 			// EXP
-			ctx.font = '10px Roboto';
+			ctx.font = '10px NotoSans';
 			ctx.textAlign = 'center';
 			ctx.fillStyle = '#3498DB';
 			ctx.shadowColor = 'rgba(0, 0, 0, 0)';
 			ctx.fillRect(10, 191, fillValue * 135, 17);
 
 			// EXP
-			ctx.font = '10px Roboto';
+			ctx.font = '10px NotoSans';
 			ctx.textAlign = 'center';
 			ctx.fillStyle = '#333333';
 			ctx.shadowColor = 'rgba(0, 0, 0, 0)';
 			ctx.fillText(`EXP: ${currentExp}/${levelBounds.upperBound - levelBounds.lowerBound}`, 78, 203);
 
 			// LVL
-			ctx.font = '30px Roboto';
+			ctx.font = '30px NotoSans';
 			ctx.textAlign = 'left';
 			ctx.fillStyle = '#E5E5E5';
 			ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
 			ctx.fillText('LVL.', 12, 235);
 
 			// LVL Number
-			ctx.font = '30px Roboto';
+			ctx.font = '30px NotoSans';
 			ctx.fillStyle = '#E5E5E5';
 			ctx.fillText(level, 86, 235);
 
 			// Total EXP
-			ctx.font = '14px Roboto';
+			ctx.font = '14px NotoSans';
 			ctx.fillStyle = '#E5E5E5';
 			ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
 			ctx.fillText('Total EXP', 12, 254);
 
 			// Total EXP Number
-			ctx.font = '14px Roboto';
+			ctx.font = '14px NotoSans';
 			ctx.fillStyle = '#E5E5E5';
 			ctx.fillText(totalExp, 86, 254);
 
 			/* // Global Rank
-			ctx.font = '14px Roboto';
+			ctx.font = '14px NotoSans';
 			ctx.fillStyle = '#E5E5E5';
 			ctx.fillText('Rank', 12, 270);
 
 			// Global Rank Number
-			ctx.font = '14px Roboto';
+			ctx.font = '14px NotoSans';
 			ctx.fillStyle = '#E5E5E5';
 			ctx.fillText('#1', 86, 270); */
 
 			// Currency
-			ctx.font = '14px Roboto';
+			ctx.font = '14px NotoSans';
 			ctx.fillStyle = '#E5E5E5';
 			ctx.fillText('Net Worth', 12, 287);
 
 			// Currency Number
-			ctx.font = '14px Roboto';
+			ctx.font = '14px NotoSans';
 			ctx.fillStyle = '#E5E5E5';
 			ctx.fillText(networth, 86, 287);
 
 			// Info title
-			ctx.font = '12px Roboto';
+			ctx.font = '12px NotoSans';
 			ctx.fillStyle = '#333333';
 			ctx.shadowColor = 'rgba(0, 0, 0, 0)';
 			ctx.fillText('Info Box', 182, 207);
 
 			// Info
-			ctx.font = '12px Roboto';
+			ctx.font = '12px NotoSans';
 			ctx.fillStyle = '#333333';
 			lines.forEach((line, i) => {
 				ctx.fillText(line, 162, (i + 18.6) * parseInt(12, 0));
