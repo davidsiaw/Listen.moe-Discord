@@ -1,30 +1,32 @@
-const UserProfile = require('../../models/UserProfile');
+const { Collection } = require('discord.js');
+
 const ItemGroup = require('./ItemGroup');
-const Redis = require('../Redis');
+const Redis = require('../../structures/Redis');
+const UserProfile = require('../../models/UserProfile');
 
 setInterval(async () => {
-	const inventories = await Redis.db.hgetallAsync('inventory');
-	const ids = Object.keys(inventories || {});
+	const inventories = await Redis.db.hgetallAsync('inventory') || {};
 
 	/* eslint-disable no-await-in-loop */
-	for (const id of ids) {
-		const user = await UserProfile.findOne({ where: { userID: id } });
-		if (!user) {
-			await UserProfile.create({
-				userID: id,
-				inventory: JSON.stringify(inventories[id])
-			});
-		} else {
-			await user.save({ inventory: JSON.stringify(inventories[id]) });
+	for (const [userID, contentString] of Object.entries(inventories)) {
+		const content = JSON.parse(contentString);
+
+		const [profile, created] = await UserProfile.findCreateFind({
+			where: { userID },
+			defaults: { inventory: content }
+		});
+
+		if (!created) {
+			profile.update({ inventory: content });
 		}
 	}
 	/* eslint-enable no-await-in-loop */
 }, 30 * 60 * 1000);
 
-class Inventory {
-	constructor(user, content) {
-		this.user = user;
-		this.content = content || {};
+module.exports = class Inventory {
+	constructor(userID, content) {
+		this.userID = userID;
+		this._content = content || new Collection();
 	}
 
 	addItem(item) {
@@ -33,22 +35,12 @@ class Inventory {
 	}
 
 	addItems(itemGroup) {
-		const amountInInventory = this.content[itemGroup.item.name] ? this.content[itemGroup.item.name].amount : 0;
-		itemGroup.amount += amountInInventory;
-		this.content[itemGroup.item.name] = itemGroup;
-	}
-
-	hasItem(item) {
-		const itemGroup = new ItemGroup(item, 1);
-		return this.hasItems(itemGroup);
-	}
-
-	hasItems(itemGroup) {
-		return !!this.content[itemGroup.item.name];
-	}
-
-	getItems() {
-		return Object.keys(this.content);
+		if (this._content.has(itemGroup.item.name)) {
+			const { amount: oldAmount } = this._content.get(itemGroup.item.name);
+			this._content.set(itemGroup.item.name, oldAmount + itemGroup.amount);
+		} else {
+			this._content.set(itemGroup.item.name, itemGroup.amount);
+		}
 	}
 
 	removeItem(item) {
@@ -57,26 +49,42 @@ class Inventory {
 	}
 
 	removeItems(itemGroup) {
-		const amountInInventory = this.content[itemGroup.item.name] ? this.content[itemGroup.item.name].amount : 0;
+		const { amount: oldAmount } = this._content.get(itemGroup.item.name);
 
-		if (amountInInventory === itemGroup.amount) {
-			delete this.content[itemGroup.item.name];
-		} else if (amountInInventory > itemGroup.amount) {
-			itemGroup.amount = amountInInventory - itemGroup.amount;
-			this.content[itemGroup.item.name] = itemGroup;
+		if (oldAmount === itemGroup.amount) {
+			this._content.delete(itemGroup.item.name);
+		} else {
+			this._content.set(itemGroup.item.name, oldAmount - itemGroup.amount);
 		}
 	}
 
-	async save() {
-		await Redis.db.hsetAsync('inventory', this.user, JSON.stringify(this.content));
+	hasItem(item) {
+		const itemGroup = new ItemGroup(item, 1);
+		this.hasItems(itemGroup);
 	}
 
-	static fetchInventory(user) {
-		return new Promise((resolve, reject) =>
-			Redis.db.hgetAsync('inventory', user).then(content => resolve(new Inventory(user, JSON.parse(content))))
-				.catch(reject)
-		);
+	hasItems(itemGroup) {
+		const { amount } = this._content.get(itemGroup.item.name) || { amount: 0 };
+		return amount >= itemGroup.amount;
 	}
-}
 
-module.exports = Inventory;
+	getItems() {
+		return this._content;
+	}
+
+	save() {
+		const contentArray = this._content.array();
+		return Redis.db.hsetAsync('inventory', this.userID, JSON.stringify(contentArray));
+	}
+
+	static async fetchInventory(userID) {
+		const contentArray = await Redis.db.hgetAsync('inventory', userID).then(JSON.parse);
+		const content = new Collection();
+
+		for (const itemGroup of contentArray) {
+			content.set(itemGroup.item.name, itemGroup);
+		}
+
+		return new Inventory(userID, content);
+	}
+};

@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const path = require('path');
 
-const BackgroundStore = require('../../structures/currency/BackgroundStore');
+const Store = require('../../structures/currency/Store');
 const Currency = require('../../structures/currency/Currency');
 
 module.exports = class BackgroundInfoCommand extends Command {
@@ -24,7 +24,7 @@ module.exports = class BackgroundInfoCommand extends Command {
 	}
 
 	run(msg, { name }) {
-		const background = BackgroundStore.getItem(name);
+		const background = Store.getItem(name);
 		if (!background) return msg.reply(`a background with the name **${name}** does not exist.`);
 
 		const filepath = path.join(__dirname, '..', '..', 'assets', 'profile', 'backgrounds', `${background.image}.png`);

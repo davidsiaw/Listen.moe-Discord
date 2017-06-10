@@ -2,8 +2,7 @@ const { Command } = require('discord.js-commando');
 const fs = require('fs');
 const path = require('path');
 
-const Background = require('../../models/Background');
-const BackgroundStore = require('../../structures/currency/BackgroundStore');
+const Store = require('../../structures/currency/Store');
 const UserProfile = require('../../models/UserProfile');
 
 module.exports = class BackgroundDeleteCommand extends Command {
@@ -38,14 +37,12 @@ module.exports = class BackgroundDeleteCommand extends Command {
 	}
 
 	async run(msg, { name }) {
-		const background = await Background.findByPrimary(name);
+		const background = await Store.getItem(name, 'background');
 		if (!background) return msg.reply('no such background exists.');
-		background.destroy();
-		BackgroundStore.removeItem(name);
+		await Store.removeItem(name);
+		UserProfile.update({ background: 'default' }, { where: { background: background.image } });
 
-		UserProfile.update({ background: 'default' }, { where: { background: name.toLowerCase() } });
-
-		const filepath = path.join(__dirname, '..', '..', 'assets', 'profile', 'backgrounds', `${name.toLowerCase()}.png`);
+		const filepath = path.join(__dirname, '..', '..', 'assets', 'profile', 'backgrounds', `${background.image}.png`);
 		fs.unlink(filepath);
 
 		return msg.reply(`successfully deleted the background ${name}`);

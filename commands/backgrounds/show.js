@@ -29,7 +29,7 @@ module.exports = class BackgroundShowCommand extends Command {
 
 		msg.embed({
 			title: `${user.username}'s backgrounds:`,
-			description: inventory.getItems().join(', ')
+			description: inventory.getItems().keyArray().join(', ')
 		});
 	}
 };
