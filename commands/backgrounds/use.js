@@ -30,10 +30,18 @@ module.exports = class UseBackgroundCommand extends Command {
 			background = { image: 'default' };
 		} else {
 			background = BackgroundStore.getItem(name);
-			if (!background) return msg.reply(`a background with the name ${name} does not exist.`);
+			if (!background) {
+				return msg.reply(
+					`a background with the name **${name.replace(/(\b\w)/gi, lc => lc.toUpperCase())}** does not exist.`
+				);
+			}
 
 			const inventory = await Inventory.fetchInventory(msg.author.id);
-			if (!inventory.hasItem(background)) return msg.reply(`you do not own the background ${name}`);
+			if (!inventory.hasItem(background)) {
+				return msg.reply(
+					`you do not own the background0 **${name.replace(/(\b\w)/gi, lc => lc.toUpperCase())}**`
+				);
+			}
 		}
 
 		const [profile, created] = await UserProfile.findCreateFind({
@@ -46,6 +54,6 @@ module.exports = class UseBackgroundCommand extends Command {
 		if (!created) await profile.update({ background: background.image });
 
 		if (name === 'default' || !name) return msg.reply(`you are now using the default background for your profile.`);
-		return msg.reply(`you are now using ${name} for your profile.`);
+		return msg.reply(`you are now using **${name.replace(/(\b\w)/gi, lc => lc.toUpperCase())}** for your profile.`);
 	}
 };

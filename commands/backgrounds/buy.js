@@ -25,10 +25,14 @@ module.exports = class BuyBackgroundCommand extends Command {
 
 	async run(msg, { name }) {
 		const background = BackgroundStore.getItem(name);
-		if (!background) return msg.reply(`a background with the name ${name} does not exist.`);
+		if (!background) return msg.reply(`a background with the name **${name}** does not exist.`);
 
 		const balance = await Currency.getBalance(msg.author.id);
-		if (balance < background.price) return msg.reply(`you don't have enough ${Currency.textPlural} to buy ${name}.`);
+		if (balance < background.price) {
+			return msg.reply(
+				`you don't have enough ${Currency.textPlural} to buy ${name.replace(/(\b\w)/gi, lc => lc.toUpperCase())}.`
+			);
+		}
 
 		await Currency.removeBalance(msg.author.id, background.price);
 
@@ -36,6 +40,6 @@ module.exports = class BuyBackgroundCommand extends Command {
 		inventory.addItem(background);
 		await inventory.save();
 
-		return msg.reply(`you have successfully bought ${name}.`);
+		return msg.reply(`you have successfully bought ${name.replace(/(\b\w)/gi, lc => lc.toUpperCase())}.`);
 	}
 };

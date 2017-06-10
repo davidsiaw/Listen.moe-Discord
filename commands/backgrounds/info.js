@@ -25,13 +25,13 @@ module.exports = class BackgroundInfoCommand extends Command {
 
 	run(msg, { name }) {
 		const background = BackgroundStore.getItem(name);
-		if (!background) return msg.reply(`a background with the name ${name} does not exist.`);
+		if (!background) return msg.reply(`a background with the name **${name}** does not exist.`);
 
 		const filepath = path.join(__dirname, '..', '..', 'assets', 'profile', 'backgrounds', `${background.image}.png`);
 
 		return msg.say({
 			embed: {
-				title: `${background.name} (${Currency.convert(background.price)})`,
+				title: `${background.name.replace(/(\b\w)/gi, lc => lc.toUpperCase())} (${Currency.convert(background.price)})`,
 				description: background.description,
 				image: { url: `attachment://${background.image}.png` }
 			},
