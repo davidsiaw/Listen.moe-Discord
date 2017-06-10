@@ -38,7 +38,7 @@ module.exports = class BackgroundInfoCommand extends Command {
 			files: [
 				{
 					attachment: filepath,
-					name: background.image
+					name: `${background.image}.png`
 				}
 			]
 		});
