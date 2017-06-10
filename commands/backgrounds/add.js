@@ -31,11 +31,6 @@ module.exports = class BackgroundAddCommand extends Command {
 					key: 'description',
 					prompt: 'what description should the background have?\n',
 					type: 'string'
-				},
-				{
-					key: 'file',
-					prompt: 'what should the file be called?\n',
-					type: 'string'
 				}
 			]
 		});
