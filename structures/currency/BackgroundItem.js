@@ -2,7 +2,8 @@ const Item = require('./Item');
 
 module.exports = class BackgroundItem extends Item {
 	constructor(name, price, data) {
-		super(name, price, 'background', data);
+		super(name, price, data);
+		this.type = 'background';
 	}
 
 	get image() {

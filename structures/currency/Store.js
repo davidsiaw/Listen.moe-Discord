@@ -29,8 +29,8 @@ class Store {
 	static addItem({ name, price, type, data }) {
 		let item;
 
-		if (type === 'background') item = new BackgroundItem(name, price, type, data);
-		else item = new Item(name, price, 'none', data);
+		if (type === 'background') item = new BackgroundItem(name, price, data);
+		else item = new Item(name, price, data);
 
 		Store.stores[item.type].set(item.name, item);
 		return item;
