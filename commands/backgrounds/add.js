@@ -42,7 +42,7 @@ module.exports = class BackgroundAddCommand extends Command {
 		const image = msg.attachments.first();
 		if (!image) return msg.reply('please attach an image to use for the background.');
 
-		if (Store.hasItem(name)) return msg.reply(`and item with the name ${name} already exists.`);
+		if (Store.hasItem(name)) return msg.reply(`an item with the name ${name} already exists.`);
 
 		const background = await Store.registerItem({ name, price, type: 'background', data: { description } });
 

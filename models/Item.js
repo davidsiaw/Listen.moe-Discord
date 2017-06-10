@@ -8,7 +8,7 @@ const Item = Database.db.define('items', {
 		primaryKey: true,
 		unique: true
 	},
-	price: Sequelize.INT,
+	price: Sequelize.BIGINT(), // eslint-disable-line new-cap
 	type: Sequelize.STRING,
 	data: Sequelize.JSONB
 });
