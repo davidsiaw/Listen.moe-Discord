@@ -116,7 +116,7 @@ module.exports = class RouletteCommand extends Command {
 				setTimeout(() => msg.say('5 more seconds for new people to bet.'), 10000);
 				setTimeout(() => msg.say('The roulette starts spinning!'), 14500);
 
-				const winners = await roulette.awaitPlayers(16000).filter(player => player.winnings !== 0);
+				const winners = (await roulette.awaitPlayers(16000)).filter(player => player.winnings !== 0);
 				winners.forEach(winner => Currency.changeBalance(winner.user.id, winner.winnings));
 
 				return msg.embed({
