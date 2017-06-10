@@ -78,8 +78,8 @@ client.on('error', winston.error)
 				attachment.url.match(/\.(png|jpg|jpeg|gif|webp)$/)
 			);
 			const moneyEarned = hasImageAttachment
-				? Math.ceil(Math.random() * 7) + 5
-				: Math.ceil(Math.random() * 7) + 1;
+				? Math.ceil(Math.random() * 2) + 4
+				: Math.ceil(Math.random() * 2) + 2;
 
 			Currency._changeBalance(message.author.id, moneyEarned);
 
@@ -112,8 +112,9 @@ client.on('error', winston.error)
 	.on('reconnect', () => winston.warn(`[DISCORD][SHARD: ${client.shard.id}]: Reconnecting...`))
 	.on('guildCreate', guild =>
 		/* eslint-disable max-len */
-		guild.defaultChannel.sendEmbed({
-			description: stripIndents`**LISTEN.moe discord bot by Crawl & vzwGrey**
+		guild.defaultChannel.send({
+			embed: {
+				description: stripIndents`**LISTEN.moe discord bot by Crawl & vzwGrey**
 				**Usage:**
 				After adding me to your server, join a voice channel and type \`~~join\` to bind me to that voice channel.
 				Keep in mind that you need to have the \`Manage Server\` permission to use this command.
@@ -127,7 +128,8 @@ client.on('error', winston.error)
 				**\\~~unignore all**: Unignores all channels on the guild.
 				**\\~~prefix !** Changes the bot's prefix for this server. Prefixes cannot contain whitespace, letters, or numbers - anything else is fair game. It's recommended that you stick with the default prefix of ~~, but this command is provided in case you find conflicts with other bots.
 				For additional commands and help, please visit [Github](https://github.com/WeebDev/listen.moe-discord)`,
-			color: 15473237
+				color: 15473237
+			}
 		})
 		/* eslint-enable max-len */
 	)
@@ -180,8 +182,8 @@ client.registry
 		['games', 'Games'],
 		['item', 'Items'],
 		['social', 'Social'],
-		['util', 'Utility'],
-		['backgrounds', 'Backgrounds']
+		['backgrounds', 'Backgrounds'],
+		['util', 'Utility']
 	])
 	.registerDefaults()
 	.registerCommandsIn(path.join(__dirname, 'commands'));

@@ -5,11 +5,11 @@ const DAY_DURATION = 24 * 60 * 60 * 1000;
 
 module.exports = class Daily {
 	static get dailyPayout() {
-		return 210;
+		return 50;
 	}
 
 	static get dailyDonationPayout() {
-		return 300;
+		return 80;
 	}
 
 	static async received(userID) {
