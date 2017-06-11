@@ -27,7 +27,8 @@ module.exports = class BackgroundDeleteCommand extends Command {
 				{
 					key: 'name',
 					prompt: 'what background do you want to delete?\n',
-					type: 'string'
+					type: 'string',
+					parse: val => val.toLowerCase()
 				}
 			]
 		});

@@ -34,7 +34,7 @@ client.dispatcher.addInhibitor(msg => {
 	return `[DISCORD][SHARD: ${client.shard.id}]: ${msg.author.tag} (${msg.author.id}) has been blacklisted.`;
 });
 
-client.dispatcher.addInhibitor(msg => {
+/*client.dispatcher.addInhibitor(msg => {
 	if (!msg.command) return false;
 	const isRestrictedCommand = ['social', 'economy', 'games', 'backgrounds'].includes(msg.command.group.id);
 	if ((msg.channel.type === 'dm' || msg.guild.id !== '216372140046286849') && isRestrictedCommand) {
@@ -44,7 +44,7 @@ client.dispatcher.addInhibitor(msg => {
 		];
 	}
 	return false;
-});
+});*/
 
 client.setProvider(new SequelizeProvider(client.database));
 

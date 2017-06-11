@@ -17,7 +17,8 @@ module.exports = class BuyBackgroundCommand extends Command {
 				{
 					key: 'name',
 					prompt: 'which background do you want to buy?\n',
-					type: 'string'
+					type: 'string',
+					parse: val => val.toLowerCase()
 				}
 			]
 		});

@@ -29,7 +29,7 @@ module.exports = class StoreInfoCommand extends Command {
 	}
 
 	run(msg, { page }) {
-		const storeItems = Store.getAll('background').keyArray();
+		const storeItems = Store.getAll('background').array();
 		const paginated = util.paginate(storeItems, page, Math.floor(PAGINATED_ITEMS));
 		if (storeItems.length === 0) return msg.reply('can\'t show what we don\'t have, man.');
 

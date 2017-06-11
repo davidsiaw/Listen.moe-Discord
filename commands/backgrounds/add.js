@@ -18,7 +18,8 @@ module.exports = class BackgroundAddCommand extends Command {
 				{
 					key: 'name',
 					prompt: 'what should the background be called?\n',
-					type: 'string'
+					type: 'string',
+					parse: val => val.toLowerCase()
 				},
 				{
 					key: 'price',

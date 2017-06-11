@@ -37,9 +37,9 @@ module.exports = class Inventory {
 	addItems(itemGroup) {
 		if (this._content.has(itemGroup.item.name)) {
 			const { amount: oldAmount } = this._content.get(itemGroup.item.name);
-			this._content.set(itemGroup.item.name, oldAmount + itemGroup.amount);
+			this._content.set(itemGroup.item.name, new ItemGroup(itemGroup.item, oldAmount + itemGroup.amount));
 		} else {
-			this._content.set(itemGroup.item.name, itemGroup.amount);
+			this._content.set(itemGroup.item.name, itemGroup);
 		}
 	}
 
@@ -54,13 +54,13 @@ module.exports = class Inventory {
 		if (oldAmount === itemGroup.amount || deleteAll) {
 			this._content.delete(itemGroup.item.name);
 		} else {
-			this._content.set(itemGroup.item.name, oldAmount - itemGroup.amount);
+			this._content.set(itemGroup.item.name, new ItemGroup(itemGroup.item, oldAmount - itemGroup.amount));
 		}
 	}
 
 	hasItem(item) {
 		const itemGroup = new ItemGroup(item, 1);
-		this.hasItems(itemGroup);
+		return this.hasItems(itemGroup);
 	}
 
 	hasItems(itemGroup) {
@@ -78,7 +78,7 @@ module.exports = class Inventory {
 	}
 
 	static async fetchInventory(userID) {
-		const contentArray = await Redis.db.hgetAsync('inventory', userID).then(JSON.parse);
+		const contentArray = await Redis.db.hgetAsync('inventory', userID).then(val => JSON.parse(val || '[]'));
 		const content = new Collection();
 
 		for (const itemGroup of contentArray) {

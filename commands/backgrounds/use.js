@@ -17,7 +17,8 @@ module.exports = class UseBackgroundCommand extends Command {
 				{
 					key: 'name',
 					prompt: 'which background do you want to use?\n',
-					type: 'string'
+					type: 'string',
+					parse: val => val.toLowerCase()
 				}
 			]
 		});
@@ -39,7 +40,7 @@ module.exports = class UseBackgroundCommand extends Command {
 			const inventory = await Inventory.fetchInventory(msg.author.id);
 			if (!inventory.hasItem(background)) {
 				return msg.reply(
-					`you do not own the background0 **${name.replace(/(\b\w)/gi, lc => lc.toUpperCase())}**`
+					`you do not own the background **${name.replace(/(\b\w)/gi, lc => lc.toUpperCase())}**`
 				);
 			}
 		}

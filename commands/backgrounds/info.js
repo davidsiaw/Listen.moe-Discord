@@ -17,7 +17,8 @@ module.exports = class BackgroundInfoCommand extends Command {
 				{
 					key: 'name',
 					prompt: 'what background do you want information on?\n',
-					type: 'string'
+					type: 'string',
+					parse: val => val.toLowerCase()
 				}
 			]
 		});
