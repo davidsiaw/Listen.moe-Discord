@@ -4,13 +4,13 @@ const Item = require('./Item');
 const ItemModel = require('../../models/Item');
 const BackgroundItem = require('./BackgroundItem');
 
-const backgrounds = new Collection();
+const background = new Collection();
 const none = new Collection();
 
 class Store {
 	static get stores() {
 		return {
-			backgrounds,
+			background,
 			none
 		};
 	}
