@@ -8,7 +8,7 @@ module.exports = class StoreInfoCommand extends Command {
 		super(client, {
 			name: 'background-store',
 			aliases: ['bg-store'],
-			group: 'item',
+			group: 'backgrounds',
 			memberName: 'store',
 			description: 'Displays price of all items.',
 			display: 'Displays price of all items.',

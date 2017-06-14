@@ -42,7 +42,7 @@ module.exports = class BackgroundDeleteCommand extends Command {
 		const background = await Store.getItem(name, 'background');
 		if (!background) return msg.reply('no such background exists.');
 		await Store.removeItem(name);
-		const users = UserProfile.findAll({ where: { background: background.image } });
+		const users = await UserProfile.findAll({ where: { background: background.image } });
 		UserProfile.update({ background: 'default' }, { where: { background: background.image } });
 
 		/* eslint-disable no-await-in-loop */
