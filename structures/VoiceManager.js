@@ -13,8 +13,7 @@ module.exports = class VoiceManager {
 
 	channelPurge() {
 		for (const vc of this.client.voiceConnections.values()) {
-			const vcListeners = vc.channel.members.filter(me => !(me.user.bot || me.selfDeaf || me.deaf)).size;
-			if (vcListeners || RADIO_CHANNELS.split(',').includes(vc.channel.id)) continue;
+			if (RADIO_CHANNELS.split(',').includes(vc.channel.id)) continue;
 			winston.info(`[DISCORD][SHARD: ${this.client.shard.id}]: RUNNING CHANNEL PURGE`);
 			this.leaveVoice(vc);
 			this.client.provider.remove(vc.channel.guild.id, 'voiceChannel');
