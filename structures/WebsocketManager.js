@@ -23,7 +23,7 @@ module.exports = class WebsocketManager {
 		this.ws.on('close', this.onClose.bind(this));
 		this.ws.on('error', winston.error);
 
-		this.currentUsersAndGuildsGame();
+		this.currentSongGame();
 	}
 
 	async onMessage(data) {
@@ -75,6 +75,6 @@ module.exports = class WebsocketManager {
 			if (this.client.streaming) this.client.user.setGame(game, 'https://twitch.tv/listen_moe');
 			else this.client.user.setGame(game);
 		}
-		return setTimeout(this.currentUsersAndGuildsGame.bind(this), 20000);
+		return setTimeout(this.currentSongGame.bind(this), 20000);
 	}
 };
