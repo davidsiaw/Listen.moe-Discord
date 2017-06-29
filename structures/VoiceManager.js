@@ -13,6 +13,7 @@ module.exports = class VoiceManager {
 
 	channelPurge() {
 		for (const vc of this.client.voiceConnections.values()) {
+			winston.info(`[DEBUG][VOICE CHAN: ${vc.channel.id} & ${RADIO_CHANNELS}]`);
 			if (RADIO_CHANNELS.split(',').includes(vc.channel.id)) continue;
 			winston.info(`[DISCORD][SHARD: ${this.client.shard.id}]: RUNNING CHANNEL PURGE`);
 			this.leaveVoice(vc);
